@@ -7,9 +7,13 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Resources\CategoryResourceCollection;
+use App\Traits\ApiResponse;
+use DB;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      *
@@ -33,16 +37,22 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        // $validatedData = $request->validated();
-        dd($request->description);
         try {
             DB::beginTransaction();
-            // Category
+            
+            $category = new Category;
+            $category->name = $request->name;
+            $category->slug = Str::slug($request->name, '-');
+            $category->description = $request->description;
+            $category->save();
+
             DB::commit();
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
             DB::rollback();
         }
+
+        return $this->createdApiResponse($category);
     }
 
     /**

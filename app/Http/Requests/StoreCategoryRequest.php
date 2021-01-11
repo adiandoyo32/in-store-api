@@ -15,7 +15,7 @@ class StoreCategoryRequest extends ApiRequest
     {
         return [
             'name' => 'required|string|max:191',
-            'description' => 'required|string|max:191|nullable'
+            'description' => 'string|max:191|nullable'
         ];
     }    
 }

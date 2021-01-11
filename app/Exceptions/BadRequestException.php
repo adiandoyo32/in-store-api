@@ -33,8 +33,10 @@ class BadRequestException extends Exception
     public function render($request)
     {
         return response()->json([
-            'status' => Response::HTTP_BAD_REQUEST,
-            'message' => 'BAD REQUEST',
+            'status' => [
+                'code' => Response::HTTP_BAD_REQUEST,
+                'message' => 'Bad Request',
+            ],
             'errors' => $this->errors,
         ], Response::HTTP_BAD_REQUEST);
     }
