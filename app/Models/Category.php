@@ -11,6 +11,6 @@ class Category extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'categories';
-    protected $guarded = ['slug'];
+    protected $guarded = [];
     protected $hidden = ['created_at','updated_at','deleted_at'];
 }

@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponse
@@ -13,7 +14,7 @@ trait ApiResponse
      * @param  int  $statusCode
      * @return array
      */
-    protected function prepareApiResponse(string $message = '', int $statusCode = Response::HTTP_NOT_FOUND)
+    protected function prepareApiResponse(string $message = '', int $statusCode = Response::HTTP_NOT_FOUND): array
     {
         if (empty($message)) {
             $message = Response::$statusTexts[$statusCode];
@@ -35,7 +36,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    protected function successApiResponse($data, int $statusCode = Response::HTTP_OK, string $message = '')
+    protected function successApiResponse($data, int $statusCode = Response::HTTP_OK, string $message = ''): JsonResponse
     {
         $response = $this->prepareApiResponse($message, $statusCode);
         $response['data'] = $data;
@@ -51,7 +52,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    protected function errorApiResponse(array $errors, int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR, string $message = '')
+    protected function errorApiResponse(array $errors, int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR, string $message = ''): JsonResponse
     {
         $response = $this->prepareApiResponse($message, $statusCode);
         $response['errors'] = $errors;
@@ -66,7 +67,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    public function okApiResponse(array $data, string $message = '')
+    public function okApiResponse(?array $data, string $message = ''): JsonResponse
     {
         return $this->successApiResponse($data, Response::HTTP_OK, $message);
     }
@@ -78,7 +79,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    public function createdApiResponse($data, string $message = '')
+    public function createdApiResponse($data, string $message = ''): JsonResponse
     {
         return $this->successApiResponse($data, Response::HTTP_CREATED, $message);
     }
@@ -90,7 +91,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    public function badRequestApiResponse(array $data, string $message = '')
+    public function badRequestApiResponse(array $data, string $message = ''): JsonResponse
     {
         return $this->errorApiResponse($data, Response::HTTP_BAD_REQUEST, $message);
     }
@@ -102,7 +103,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    public function unauthorizedApiResponse(array $data, string $message = '')
+    public function unauthorizedApiResponse(array $data, string $message = ''): JsonResponse
     {
         return $this->errorApiResponse($data, Response::HTTP_UNAUTHORIZED, $message);
     }
@@ -114,7 +115,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    public function forbiddenApiResponse(array $data, string $message = '')
+    public function forbiddenApiResponse(array $data, string $message = ''): JsonResponse
     {
         return $this->errorApiResponse($data, Response::HTTP_FORBIDDEN, $message);
     }
@@ -126,7 +127,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    public function notFoundApiResponse(array $data, string $message = '')
+    public function notFoundApiResponse(array $data, string $message = ''): JsonResponse
     {
         return $this->errorApiResponse($data, Response::HTTP_NOT_FOUND, $message);
     }
@@ -138,7 +139,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    public function conflictApiResponse(array $data, string $message = '')
+    public function conflictApiResponse(array $data, string $message = ''): JsonResponse
     {
         return $this->errorApiResponse($data, Response::HTTP_CONFLICT, $message);
     }
@@ -150,7 +151,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    public function unprocessableApiResponse(array $data, string $message = '')
+    public function unprocessableApiResponse(array $data, string $message = ''): JsonResponse
     {
         return $this->errorApiResponse($data, Response::HTTP_UNPROCESSABLE_ENTITY, $message);
     }

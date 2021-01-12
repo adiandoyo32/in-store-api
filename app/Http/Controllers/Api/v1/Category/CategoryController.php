@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Api\v1\Category;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\Category\StoreCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResourceCollection;
 use App\Traits\ApiResponse;
-use Illuminate\Support\Str;
 use App\Repositories\Category\CategoryRepository;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -30,33 +29,20 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryRepository->all();
+        $categories = $this->categoryRepository->all()->toArray();
 
-        return (new CategoryResourceCollection($categories))->response();
+        return $this->okApiResponse($categories);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCategoryRequest $request)
     {
-        try {
-            DB::beginTransaction();
-            
-            $category = new Category;
-            $category->name = $request->name;
-            $category->slug = Str::slug($request->name, '-');
-            $category->description = $request->description;
-            $category->save();
-
-            DB::commit();
-        } catch (\Throwable $th) {
-            throw $th;
-            DB::rollback();
-        }
+        $category = $this->categoryRepository->store($request)->toArray();
 
         return $this->createdApiResponse($category);
     }
@@ -77,13 +63,15 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UpdateCategoryRequest  $request
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $category = $this->categoryRepository->update($request, $category)->toArray();
+
+        return $this->okApiResponse($category);
     }
 
     /**
@@ -94,6 +82,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category = $this->categoryRepository->delete($category);
+
+        return $this->okApiResponse(null);
     }
 }

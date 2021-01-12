@@ -20,8 +20,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::get('/categories', [Controllers\Api\v1\Category\CategoryController::class, 'index']);
-    Route::post('/categories', [Controllers\Api\v1\Category\CategoryController::class, 'store']);
-    Route::get('/categories/{category}', [Controllers\Api\v1\Category\CategoryController::class, 'show']);
+    Route::prefix('categories')->group(function() {
+        Route::get('/', [Controllers\Api\v1\Category\CategoryController::class, 'index']);
+        Route::post('/', [Controllers\Api\v1\Category\CategoryController::class, 'store']);
+
+        Route::prefix('{category}')->group(function() {
+            Route::get('/', [Controllers\Api\v1\Category\CategoryController::class, 'show']);
+            Route::patch('/', [Controllers\Api\v1\Category\CategoryController::class, 'update']);
+            Route::delete('/', [Controllers\Api\v1\Category\CategoryController::class, 'destroy']);
+        });
+    });
 });
 
