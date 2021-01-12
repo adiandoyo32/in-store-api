@@ -8,12 +8,21 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Resources\CategoryResourceCollection;
 use App\Traits\ApiResponse;
-use DB;
 use Illuminate\Support\Str;
+use App\Repositories\Category\CategoryRepository;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
     use ApiResponse;
+
+    private $categoryRepository;
+
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,11 +30,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(10);
+        $categories = $this->categoryRepository->all();
 
-        // return response()->json([
-        //     'data' => $categories,
-        // ]);
         return (new CategoryResourceCollection($categories))->response();
     }
 
@@ -63,7 +69,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $category = $this->categoryRepository->find($category)->toArray();
+
+        return $this->okApiResponse($category);
     }
 
     /**
