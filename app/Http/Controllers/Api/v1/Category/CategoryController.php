@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Api\v1\Category;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
-use App\Http\Resources\CategoryResourceCollection;
-use App\Traits\ApiResponse;
 use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Traits\ApiResponse;
 
 class CategoryController extends Controller
 {
@@ -17,7 +16,7 @@ class CategoryController extends Controller
 
     private $categoryRepository;
 
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }
