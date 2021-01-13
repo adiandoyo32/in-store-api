@@ -30,5 +30,16 @@ Route::prefix('v1')->group(function () {
             Route::delete('/', [Controllers\Api\v1\Category\CategoryController::class, 'destroy']);
         });
     });
+
+    Route::prefix('products')->group(function() {
+        Route::get('/', [Controllers\Api\v1\Product\ProductController::class, 'index']);
+        Route::post('/', [Controllers\Api\v1\Product\ProductController::class, 'store']);
+
+        Route::prefix('{product}')->group(function() {
+            Route::get('/', [Controllers\Api\v1\Product\ProductController::class, 'show']);
+            Route::patch('/', [Controllers\Api\v1\Product\ProductController::class, 'update']);
+            Route::delete('/', [Controllers\Api\v1\Product\ProductController::class, 'destroy']);
+        });
+    });
 });
 

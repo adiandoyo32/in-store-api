@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
-use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Traits\ApiResponse;
 

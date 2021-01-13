@@ -14,8 +14,8 @@ class StoreCategoryRequest extends ApiRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:191',
-            'description' => 'string|max:191|nullable'
+            'name' => 'required|string|max:255',
+            'description' => 'string|max:255|nullable'
         ];
     }    
 }

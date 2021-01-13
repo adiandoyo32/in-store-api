@@ -11,7 +11,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function all()
     {
-        return Category::paginate(10);
+        return Category::paginate();
     }
 
     public function store($request)

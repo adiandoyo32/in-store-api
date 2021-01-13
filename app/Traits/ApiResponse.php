@@ -36,10 +36,12 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    protected function successApiResponse($data, int $statusCode = Response::HTTP_OK, string $message = ''): JsonResponse
+    protected function successApiResponse(?array $data, int $statusCode = Response::HTTP_OK, string $message = ''): JsonResponse
     {
         $response = $this->prepareApiResponse($message, $statusCode);
-        $response['data'] = $data;
+        if (!is_null($data)) {
+            $response['data'] = $data;
+        }
 
         return response()->json($response, $statusCode);
     }
@@ -52,10 +54,12 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    protected function errorApiResponse(array $errors, int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR, string $message = ''): JsonResponse
+    protected function errorApiResponse(?array $errors, int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR, string $message = ''): JsonResponse
     {
         $response = $this->prepareApiResponse($message, $statusCode);
-        $response['errors'] = $errors;
+        if (!is_null($errors)) {
+            $response['errors'] = $errors;
+        }
 
         return response()->json($response, $statusCode);
     }
@@ -127,7 +131,7 @@ trait ApiResponse
      * @param  string  $message
      * @return JsonResponse
      */
-    public function notFoundApiResponse(array $data, string $message = ''): JsonResponse
+    public function notFoundApiResponse(?array $data, string $message = ''): JsonResponse
     {
         return $this->errorApiResponse($data, Response::HTTP_NOT_FOUND, $message);
     }
