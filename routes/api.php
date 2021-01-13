@@ -41,5 +41,16 @@ Route::prefix('v1')->group(function () {
             Route::delete('/', [Controllers\Api\v1\Product\ProductController::class, 'destroy']);
         });
     });
+
+    Route::prefix('carts')->group(function() {
+        Route::get('/', [Controllers\Api\v1\Cart\CartController::class, 'index']);
+        Route::post('/', [Controllers\Api\v1\Cart\CartController::class, 'store']);
+
+        Route::prefix('{cart}')->group(function() {
+            Route::get('/', [Controllers\Api\v1\Cart\CartController::class, 'show']);
+            Route::patch('/', [Controllers\Api\v1\Cart\CartController::class, 'update']);
+            Route::delete('/', [Controllers\Api\v1\Cart\CartController::class, 'destroy']);
+        });
+    });
 });
 
