@@ -12,7 +12,7 @@ interface CategoryRepositoryInterface
 
     public function find(Category $category);
 
-    public function findById($category);
+    public function findById($categoryId);
 
     public function update($request, Category $category);
 

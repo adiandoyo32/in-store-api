@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RepositoriesServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ServicesServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
 

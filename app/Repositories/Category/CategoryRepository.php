@@ -11,13 +11,13 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function all()
     {
-        return Category::paginate();
+        return Category::all();
     }
 
     public function store($request)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
 
             $category = Category::firstOrCreate(
                 ['name' => $request->name],
@@ -44,14 +44,13 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function findById($categoryId)
     {
-        return Category::where('id', $categoryId)
-            ->firstOrFail();
+        return Category::findOrFail($categoryId);
     }
 
     public function update($request, Category $category)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
 
             $category->name = $request->name;
             $category->slug = Str::slug($request->name, '-');

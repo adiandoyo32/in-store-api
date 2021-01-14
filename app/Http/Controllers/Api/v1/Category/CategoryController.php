@@ -6,18 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
-use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Services\Interfaces\CategoryServiceInterface;
 use App\Traits\ApiResponse;
 
 class CategoryController extends Controller
 {
     use ApiResponse;
 
-    private $categoryRepository;
+    private $categoryService;
 
-    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    public function __construct(CategoryServiceInterface $categoryService)
     {
-        $this->categoryRepository = $categoryRepository;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -27,7 +27,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryRepository->all()->toArray();
+        $categories = $this->categoryService->getAllCategory();
 
         return $this->okApiResponse($categories);
     }
@@ -40,7 +40,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $category = $this->categoryRepository->store($request)->toArray();
+        $category = $this->categoryService->storeCategory($request);
 
         return $this->createdApiResponse($category);
     }
@@ -53,7 +53,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $category = $this->categoryRepository->find($category)->toArray();
+        $category = $this->categoryService->findCategory($category);
 
         return $this->okApiResponse($category);
     }
@@ -67,7 +67,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $category = $this->categoryRepository->update($request, $category)->toArray();
+        $category = $this->categoryService->updateCategory($request, $category);
 
         return $this->okApiResponse($category);
     }
@@ -80,7 +80,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category = $this->categoryRepository->delete($category);
+        $category = $this->categoryService->deleteCategory($category);
 
         return $this->okApiResponse(null);
     }
