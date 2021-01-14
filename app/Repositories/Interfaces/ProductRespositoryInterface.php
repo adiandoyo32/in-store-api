@@ -12,7 +12,7 @@ interface ProductRepositoryInterface
 
     public function find(Product $product);
 
-    public function findById($product);
+    public function findById(string $product);
 
     public function update($request, Product $product);
 
