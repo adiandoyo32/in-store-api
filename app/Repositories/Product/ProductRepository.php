@@ -45,9 +45,9 @@ class ProductRepository implements ProductRepositoryInterface
         return $product;
     }
 
-    public function findById($categoryId)
+    public function findById($productId)
     {
-        return Product::where('id', $categoryId)
+        return Product::where('id', $productId)
             ->firstOrFail();
     }
 
