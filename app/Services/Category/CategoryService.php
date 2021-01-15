@@ -7,6 +7,7 @@ use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Services\Interfaces\CategoryServiceInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryService implements CategoryServiceInterface
 {
@@ -34,6 +35,9 @@ class CategoryService implements CategoryServiceInterface
 
     public function findCategoryById($categoryId)
     {
+        if (!is_int($categoryId)) {
+            throw new NotFoundHttpException();
+        }
         return $this->categoryRepository->findById($categoryId)->toArray();
     }
 
