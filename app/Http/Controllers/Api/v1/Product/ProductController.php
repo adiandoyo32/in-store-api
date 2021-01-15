@@ -8,6 +8,8 @@ use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Traits\ApiResponse;
+use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class ProductController extends Controller
 {
@@ -40,6 +42,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        
         $product = $this->productRepository->store($request)->toArray();
 
         return $this->okApiResponse($product);
@@ -54,7 +57,7 @@ class ProductController extends Controller
     public function show($productId)
     {
         $product = $this->productRepository->findById($productId)->toArray();
-
+        
         return $this->okApiResponse($product);
     }
 

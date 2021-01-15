@@ -7,6 +7,7 @@ use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -47,7 +48,9 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findById(string $productId)
     {
-        // return Product::where('id', $productId)->firstOrFail();
+        if (!Str::isUuid($productId)) {
+            throw new NotFoundHttpException();
+        }
         return Product::findOrFail($productId);
     }
 
